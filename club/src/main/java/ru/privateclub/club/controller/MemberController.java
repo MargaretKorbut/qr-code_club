@@ -1,0 +1,43 @@
+package ru.privateclub.club.controller;
+
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+import ru.privateclub.club.dto.MemberCreateDto;
+import ru.privateclub.club.dto.MemberDto;
+import ru.privateclub.club.service.MemberService;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/members")
+@RequiredArgsConstructor
+public class MemberController {
+
+    private final MemberService memberService;
+
+    @GetMapping
+    public List<MemberDto> getAll() {
+        return memberService.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public MemberDto getById(@PathVariable Long id) {
+        return memberService.getById(id);
+    }
+
+    @PostMapping
+    public MemberDto create(@Valid @RequestBody MemberCreateDto dto) {
+        return memberService.create(dto);
+    }
+
+    @PutMapping("/{id}")
+    public MemberDto update(@PathVariable Long id, @Valid @RequestBody MemberCreateDto dto) {
+        return memberService.update(id, dto);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        memberService.delete(id);
+    }
+}
