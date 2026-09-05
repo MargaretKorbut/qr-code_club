@@ -2,6 +2,7 @@ package ru.privateclub.club.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,28 +26,28 @@ public class QrCodeController {
     private final QrCodeService qrCodeService;
 
     @GetMapping("/{id}")
-    public QrCodeDto getById(@PathVariable Long id) {
-        return qrCodeService.getById(id);
+    public ResponseEntity<QrCodeDto> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(qrCodeService.getById(id));
     }
 
     @PostMapping
-    public QrCodeDto create(@Valid @RequestBody QrCodeCreateDto dto) {
-        return qrCodeService.create(dto);
+    public ResponseEntity<QrCodeDto> create(@Valid @RequestBody QrCodeCreateDto dto) {
+        return ResponseEntity.ok(qrCodeService.create(dto));
     }
 
     @PutMapping("/{id}")
-    public QrCodeDto update(@PathVariable Long id, @Valid @RequestBody QrCodeCreateDto dto) {
-        return qrCodeService.update(id, dto);
+    public ResponseEntity<QrCodeDto> update(@PathVariable Long id, @Valid @RequestBody QrCodeCreateDto dto) {
+        return ResponseEntity.ok(qrCodeService.update(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         qrCodeService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
-    // Главный эндпоинт — вход по QR-коду
     @PostMapping("/enter/{code}")
-    public EntryResponseDto enter(@PathVariable UUID code) {
-        return qrCodeService.enter(code);
+    public ResponseEntity<EntryResponseDto> enter(@PathVariable UUID code) {
+        return ResponseEntity.ok(qrCodeService.enter(code));
     }
 }
