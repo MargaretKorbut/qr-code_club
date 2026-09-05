@@ -6,6 +6,7 @@ import ru.privateclub.club.dto.MemberCreateDto;
 import ru.privateclub.club.dto.MemberDto;
 import ru.privateclub.club.entity.Member;
 import ru.privateclub.club.repository.MemberRepository;
+import ru.privateclub.club.exception.EntityNotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -39,7 +40,7 @@ public class MemberService {
 
     private Member findMemberOrThrow(Long id) {
         return memberRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Участник с id=" + id + " не найден"));
+                .orElseThrow(() -> new EntityNotFoundException("Участник с id=" + id + " не найден"));
     }
 
     private MemberDto toDto(Member member) {

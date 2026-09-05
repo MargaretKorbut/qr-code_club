@@ -9,6 +9,7 @@ import ru.privateclub.club.entity.Member;
 import ru.privateclub.club.entity.QrCode;
 import ru.privateclub.club.repository.MemberRepository;
 import ru.privateclub.club.repository.QrCodeRepository;
+import ru.privateclub.club.exception.EntityNotFoundException;
 
 import java.util.UUID;
 
@@ -26,7 +27,7 @@ public class QrCodeService {
 
     public QrCodeDto create(QrCodeCreateDto dto) {
         Member member = memberRepository.findById(dto.getMemberId())
-                .orElseThrow(() -> new IllegalArgumentException("Участник с id=" + dto.getMemberId() + " не найден"));
+                .orElseThrow(() -> new EntityNotFoundException("Участник с id=" + dto.getMemberId() + " не найден"));
 
         QrCode qrCode = new QrCode();
         qrCode.setCode(UUID.randomUUID());
@@ -40,7 +41,7 @@ public class QrCodeService {
     public QrCodeDto update(Long id, QrCodeCreateDto dto) {
         QrCode qrCode = findQrCodeOrThrow(id);
         Member member = memberRepository.findById(dto.getMemberId())
-                .orElseThrow(() -> new IllegalArgumentException("Участник с id=" + dto.getMemberId() + " не найден"));
+                .orElseThrow(() -> new EntityNotFoundException("Участник с id=" + dto.getMemberId() + " не найден"));
         qrCode.setMember(member);
         QrCode saved = qrCodeRepository.save(qrCode);
         return toDto(saved);
@@ -54,7 +55,7 @@ public class QrCodeService {
     // Главная логика: вход по QR-коду
     public EntryResponseDto enter(UUID code) {
         QrCode qrCode = qrCodeRepository.findByCodeAndActiveTrue(code)
-                .orElseThrow(() -> new IllegalArgumentException("QR-код не найден или уже использован"));
+                .orElseThrow(() -> new EntityNotFoundException("QR-код не найден или уже использован"));
 
         // Старый код деактивируем
         qrCode.setActive(false);
@@ -73,7 +74,7 @@ public class QrCodeService {
 
     private QrCode findQrCodeOrThrow(Long id) {
         return qrCodeRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("QR-код с id=" + id + " не найден"));
+                .orElseThrow(() -> new EntityNotFoundException("QR-код с id=" + id + " не найден"));
     }
 
     private QrCodeDto toDto(QrCode qrCode) {
