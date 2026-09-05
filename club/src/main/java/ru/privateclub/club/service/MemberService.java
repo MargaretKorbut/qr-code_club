@@ -38,7 +38,7 @@ public class MemberService {
         memberRepository.delete(member);
     }
 
-    private Member findMemberOrThrow(Long id) {
+    public Member findMemberOrThrow(Long id) {
         return memberRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Участник с id=" + id + " не найден"));
     }

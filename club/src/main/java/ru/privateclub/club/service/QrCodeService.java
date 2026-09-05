@@ -7,9 +7,8 @@ import ru.privateclub.club.dto.QrCodeCreateDto;
 import ru.privateclub.club.dto.QrCodeDto;
 import ru.privateclub.club.entity.Member;
 import ru.privateclub.club.entity.QrCode;
-import ru.privateclub.club.repository.MemberRepository;
-import ru.privateclub.club.repository.QrCodeRepository;
 import ru.privateclub.club.exception.EntityNotFoundException;
+import ru.privateclub.club.repository.QrCodeRepository;
 
 import java.util.UUID;
 
@@ -18,7 +17,7 @@ import java.util.UUID;
 public class QrCodeService {
 
     private final QrCodeRepository qrCodeRepository;
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
     public QrCodeDto getById(Long id) {
         QrCode qrCode = findQrCodeOrThrow(id);
@@ -26,8 +25,7 @@ public class QrCodeService {
     }
 
     public QrCodeDto create(QrCodeCreateDto dto) {
-        Member member = memberRepository.findById(dto.getMemberId())
-                .orElseThrow(() -> new EntityNotFoundException("Участник с id=" + dto.getMemberId() + " не найден"));
+        Member member = memberService.findMemberOrThrow(dto.getMemberId());
 
         QrCode qrCode = new QrCode();
         qrCode.setCode(UUID.randomUUID());
@@ -40,8 +38,7 @@ public class QrCodeService {
 
     public QrCodeDto update(Long id, QrCodeCreateDto dto) {
         QrCode qrCode = findQrCodeOrThrow(id);
-        Member member = memberRepository.findById(dto.getMemberId())
-                .orElseThrow(() -> new EntityNotFoundException("Участник с id=" + dto.getMemberId() + " не найден"));
+        Member member = memberService.findMemberOrThrow(dto.getMemberId());
         qrCode.setMember(member);
         QrCode saved = qrCodeRepository.save(qrCode);
         return toDto(saved);
