@@ -14,19 +14,12 @@ import ru.privateclub.club.dto.MemberCreateDto;
 import ru.privateclub.club.dto.MemberDto;
 import ru.privateclub.club.service.MemberService;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/v1/members")
 @RequiredArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;
-
-    @GetMapping
-    public List<MemberDto> getAll() {
-        return memberService.getAll();
-    }
 
     @GetMapping("/{id}")
     public MemberDto getById(@PathVariable Long id) {

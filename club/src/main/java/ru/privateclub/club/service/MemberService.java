@@ -7,19 +7,11 @@ import ru.privateclub.club.dto.MemberDto;
 import ru.privateclub.club.entity.Member;
 import ru.privateclub.club.repository.MemberRepository;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class MemberService {
 
     private final MemberRepository memberRepository;
-
-    public List<MemberDto> getAll() {
-        return memberRepository.findAll().stream()
-                .map(this::toDto)
-                .toList();
-    }
 
     public MemberDto getById(Long id) {
         Member member = findMemberOrThrow(id);

@@ -10,7 +10,6 @@ import ru.privateclub.club.entity.QrCode;
 import ru.privateclub.club.repository.MemberRepository;
 import ru.privateclub.club.repository.QrCodeRepository;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -19,12 +18,6 @@ public class QrCodeService {
 
     private final QrCodeRepository qrCodeRepository;
     private final MemberRepository memberRepository;
-
-    public List<QrCodeDto> getAll() {
-        return qrCodeRepository.findAll().stream()
-                .map(this::toDto)
-                .toList();
-    }
 
     public QrCodeDto getById(Long id) {
         QrCode qrCode = findQrCodeOrThrow(id);

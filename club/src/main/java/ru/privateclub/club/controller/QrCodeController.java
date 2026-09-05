@@ -15,7 +15,6 @@ import ru.privateclub.club.dto.QrCodeCreateDto;
 import ru.privateclub.club.dto.QrCodeDto;
 import ru.privateclub.club.service.QrCodeService;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -24,11 +23,6 @@ import java.util.UUID;
 public class QrCodeController {
 
     private final QrCodeService qrCodeService;
-
-    @GetMapping
-    public List<QrCodeDto> getAll() {
-        return qrCodeService.getAll();
-    }
 
     @GetMapping("/{id}")
     public QrCodeDto getById(@PathVariable Long id) {
