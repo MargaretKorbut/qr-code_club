@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/qrcodes")
+@RequestMapping("/api/v1/qrcodes")
 @RequiredArgsConstructor
 public class QrCodeController {
 

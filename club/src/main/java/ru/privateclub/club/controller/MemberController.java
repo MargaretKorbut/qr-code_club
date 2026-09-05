@@ -17,7 +17,7 @@ import ru.privateclub.club.service.MemberService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/members")
+@RequestMapping("/api/v1/members")
 @RequiredArgsConstructor
 public class MemberController {
 
